@@ -26,8 +26,8 @@
             </td>
             <td>
                 Quantité
-                <select class="form-control">
-                    <option selected>1</option>
+                <select class="form-control" id="quantity">
+                    <option selected="selected">1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
@@ -35,9 +35,30 @@
                 </select>
             </td>
             <td>
-                <a asp-action="Order" asp-route-id="@item.Id">Commander</a>
+                <!--a asp-action="Order" asp-route-id="@item.Id">Commander</a-->
+                <button class="btn btn-primary "onclick="ajouterAuPanier(@item.Id);">Commander</button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<script type="text/javascript">
+    function ajouterAuPanier(id) {
+        var qte = $("#quantity").val();
+        $.ajax(
+            {
+                type: "GET",
+                url: "@Url.Action("Order","Produit")",
+                data: {
+                    id: id,
+                    qte: qte
+                },
+                success: function (result) {
+                    alert(result)
+                },
+                error: function () {alert("Erreur Ajax")}
+            }
+        );
+    }
+</script>

@@ -178,6 +178,38 @@ namespace Tirelires.Controllers
             return RedirectToAction("Gallery", "Produit", new { area = "" });
         }
 
+        public IActionResult RemoveFromShoppingCard(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    Claim claim = User.Claims.ToList().FirstOrDefault();
+                    string userId = claim.Value;
+
+                    if (userId != null)
+                    {
+                        if (HttpContext.Session.GetString("panier") != null)
+                        {
+                            Commande panierActuel = JsonConvert.DeserializeObject<Commande>(HttpContext.Session.GetString("panier"));
+
+                            DetailCommande detail = panierActuel.DetailCommande.Where(d => d.IdProduit == id).First();
+                            detail.Quantite = (detail.Quantite > 0) ? detail.Quantite - 1 : 0;
+
+                                string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
+                            HttpContext.Session.SetString("panier", strPanierActuel);
+                        }
+                    }
+                    return RedirectToAction("Index", "Commande", new { area = "" });
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Compte", new { area = "" });
+                }
+            }
+            return RedirectToAction("Gallery", "Produit", new { area = "" });
+        }
+
         public IActionResult GetImage(int id)
         {
             Produit produit = _repository.Get(id);
