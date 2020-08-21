@@ -1,0 +1,86 @@
+﻿@model Tirelires.Produit
+
+@{
+    ViewData["Title"] = "Créer";
+}
+
+<h1>Créer</h1>
+
+<h4>Produit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nom" class="control-label"></label>
+                <input asp-for="Nom" class="form-control" />
+                <span asp-validation-for="Nom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCouleur" class="control-label">Couleur</label>
+                <select asp-for="IdCouleur" class ="form-control" asp-items="ViewBag.Couleur"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdFabricant" class="control-label">Fabricant</label>
+                <select asp-for="IdFabricant" class ="form-control" asp-items="ViewBag.Fabricant"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdImage" class="control-label">Image</label>
+                <input type="file" name="fichier" />
+                <input type="submit" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Hauteur" class="control-label"></label>
+                <input asp-for="Hauteur" class="form-control" />cm
+                <span asp-validation-for="Hauteur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Largeur" class="control-label"></label>
+                <input asp-for="Largeur" class="form-control" />cm
+                <span asp-validation-for="Largeur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longueur" class="control-label"></label>
+                <input asp-for="Longueur" class="form-control" />cm
+                <span asp-validation-for="Longueur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Poids" class="control-label"></label>
+                <input asp-for="Poids" class="form-control" />g
+                <span asp-validation-for="Poids" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Capacité" class="control-label"></label>
+                <input asp-for="Capacité" class="form-control" />pièces de 1€
+                <span asp-validation-for="Capacité" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prix" class="control-label"></label>
+                <input asp-for="Prix" class="form-control" />€
+                <span asp-validation-for="Prix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Statut" /> @Html.DisplayNameFor(model => model.Statut)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Créer" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Retour à la liste</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

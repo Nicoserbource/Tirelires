@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Tirelires.Produit>
+
+@{
+    ViewData["Title"] = "Produits";
+}
+
+<!--h1 class="title">Bonjour @{/*Client.Identity.Prenom + " " + Client.Identity.Nom*/}</h1-->
+
+<h1>Produits</h1>
+
+<table class="table">
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @if (item.Image != null)
+                {
+                    <div class="photo-display">
+                        <img class="photo-display-img" src="@Url.Action("GetImage", "Produit", new { Id = item.Id })" />
+                    </div>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)€
+            </td>
+            <td>
+                <a asp-action="Order" asp-route-id="@item.Id">Commander</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
