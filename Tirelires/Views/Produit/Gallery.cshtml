@@ -4,8 +4,6 @@
     ViewData["Title"] = "Produits";
 }
 
-<!--h1 class="title">Bonjour @{/*Client.Identity.Prenom + " " + Client.Identity.Nom*/}</h1-->
-
 <h1>Produits</h1>
 
 <table class="table">
@@ -25,6 +23,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Prix)€
+            </td>
+            <td>
+                Quantité
+                <select class="form-control">
+                    <option selected>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
             </td>
             <td>
                 <a asp-action="Order" asp-route-id="@item.Id">Commander</a>

@@ -134,6 +134,7 @@ namespace Tirelires.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Order(int id)
         {
             if(ModelState.IsValid)
@@ -167,13 +168,14 @@ namespace Tirelires.Controllers
                         string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
                         HttpContext.Session.SetString("panier", strPanierActuel);
                     }
-                    else
-                    {
-                        return RedirectToAction("Login", "Compte", new { area = "" });
-                    }
+                    return RedirectToAction("Index", "Commande", new { area = "" });
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Compte", new { area = "" });
                 }
             }
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return RedirectToAction("Gallery", "Produit", new { area = "" });
         }
 
         public IActionResult GetImage(int id)

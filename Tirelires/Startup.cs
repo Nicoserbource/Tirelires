@@ -44,6 +44,7 @@ namespace Tirelires
             {
                 options.AddPolicy("RequireEmail", policy => policy.RequireClaim(ClaimTypes.Email));
             });
+            services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(20));
             services.AddControllersWithViews();
         }
 
@@ -68,6 +69,8 @@ namespace Tirelires
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
