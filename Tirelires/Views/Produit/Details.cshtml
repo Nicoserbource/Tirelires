@@ -85,6 +85,14 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Modifier</a> |
-    <a asp-action="Index">Retour à la liste</a>
+    @if (User.IsInRole("Administrateur"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Modifier</a>
+        <a> | </a>
+        <a asp-action="Index">Retour à la liste</a>
+    }
+    else
+    {
+        <a asp-action="Gallery"> Retour à la liste</a>
+    }
 </div>

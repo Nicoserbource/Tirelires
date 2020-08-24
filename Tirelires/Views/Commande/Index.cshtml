@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    decimal total = 0;
 }
 
 <h1>Panier</h1>
@@ -34,26 +35,57 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IdProduitNavigation.Nom)
                 </td>
-                <td>
+                <td id="quantity">
                     @Html.DisplayFor(modelItem => item.Quantite)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PrixUnitaire)
                 </td>
                 <td>
-                    TODO : Calculer le prix total
+                    @{ 
+                        total += (item.Quantite * item.PrixUnitaire);
+                    }
+                    <span>@(item.Quantite*item.PrixUnitaire)</span>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCommandeNavigation.Id)
                 </td>
                 <td>
-                    <button class="btn btn-primary "onclick="@Url.Action("RemoveFromShoppingCard", "Produit", new { Id = item.Id })">Retirer du panier</button>
+                    <button class="btn btn-primary" onclick="retirerDuPanier(@item.Id);">Retirer du panier</button>
                 </td>
             </tr>
         }
+        <tr>
+            <td>
+                <b>Montant total :</b>
+            </td>
+            <td>
+                @total
+            </td>
+        </tr>
     </tbody>
 </table>
 
 <div>
     <a asp-area="" asp-controller="Produit" asp-action="Gallery">Retour aux produits</a>
 </div>
+
+<script type="text/javascript">
+    function retirerDuPanier(id) {
+        var qte = $("#quantity").val();
+        $.ajax(
+            {
+                type: "GET",
+                url: "@Url.Action("RemoveFromShoppingCard","Produit")",
+                data: {
+                    id: id,
+                    qte: qte
+                },
+                success: function (result) {
+                    alert(result)
+                },
+                error: function () {alert("Erreur Ajax")}
+            }
+        );
+    }
+</script>

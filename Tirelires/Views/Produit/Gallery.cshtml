@@ -27,7 +27,7 @@
             <td>
                 Quantité
                 <select class="form-control" id="quantity">
-                    <option selected="selected">1</option>
+                    <option selected="selected" value="1">1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
@@ -35,8 +35,12 @@
                 </select>
             </td>
             <td>
-                <!--a asp-action="Order" asp-route-id="@item.Id">Commander</a-->
-                <button class="btn btn-primary "onclick="ajouterAuPanier(@item.Id);">Commander</button>
+                <div>
+                    <a asp-action="Details" asp-route-id="@item.Id">Détails</a>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="ajouterAuPanier(@item.Id);">Commander</button>
+                </div>
             </td>
         </tr>
 }
