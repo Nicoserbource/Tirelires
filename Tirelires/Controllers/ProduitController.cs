@@ -168,14 +168,13 @@ namespace Tirelires.Controllers
                         string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
                         HttpContext.Session.SetString("panier", strPanierActuel);
                     }
-                    return RedirectToAction("Index", "Commande", new { area = "" });
                 }
                 else
                 {
                     return RedirectToAction("Login", "Compte", new { area = "" });
                 }
             }
-            return RedirectToAction("Gallery", "Produit", new { area = "" });
+            return RedirectToAction("Index", "Commande", new { area = "" });
         }
 
         public IActionResult RemoveFromShoppingCard(int id)
@@ -200,14 +199,13 @@ namespace Tirelires.Controllers
                             HttpContext.Session.SetString("panier", strPanierActuel);
                         }
                     }
-                    return RedirectToAction("Index", "Commande", new { area = "" });
                 }
                 else
                 {
                     return RedirectToAction("Login", "Compte", new { area = "" });
                 }
             }
-            return RedirectToAction("Gallery", "Produit", new { area = "" });
+            return RedirectToAction("Index", "Commande", new { area = "" });
         }
 
         public IActionResult GetImage(int id)
@@ -235,7 +233,8 @@ namespace Tirelires.Controllers
                         contentType = "application/octet-stream";
                     }
                     return File(fileBytes, contentType);
-                } else
+                }
+                else
                 {
                     return NotFound();
                 }

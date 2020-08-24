@@ -51,7 +51,7 @@
                     @Html.DisplayFor(modelItem => item.IdCommandeNavigation.Id)
                 </td>
                 <td>
-                    <button class="btn btn-primary" onclick="retirerDuPanier(@item.Id);">Retirer du panier</button>
+                    <button class="btn btn-primary" onclick="retirerDuPanier(@item.IdProduitNavigation.Id);">Retirer du panier</button>
                 </td>
             </tr>
         }
