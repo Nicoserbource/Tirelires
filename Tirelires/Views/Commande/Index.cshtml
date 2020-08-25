@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    decimal total = 0;
 }
 
 <h1>Panier</h1>
@@ -30,14 +29,6 @@
     </thead>
     <tbody>
         <partial name="/Views/Shared/_DetailCommande.cshtml" model=@Model />
-        <tr>
-            <td>
-                <b>Montant total :</b>
-            </td>
-            <td>
-                @total €
-            </td>
-        </tr>
     </tbody>
 </table>
 
@@ -55,7 +46,7 @@
                     id: id
                 },
                 success: function (result) {
-                    alert("Panier mis à jour.")
+                    location.reload();
                 },
                 error: function () {alert("Ajax a rencontré une erreur.")}
             }

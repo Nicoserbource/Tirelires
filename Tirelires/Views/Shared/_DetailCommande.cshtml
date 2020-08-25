@@ -6,27 +6,38 @@
 
 @foreach (var item in Model)
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(model => item.IdProduitNavigation.Nom)
-        </td>
-        <td id="quantity">
-            @Html.DisplayFor(model => item.Quantite)
-        </td>
-        <td>
-            @Html.DisplayFor(model => item.PrixUnitaire)
-        </td>
-        <td>
-            @{
-                total += (item.Quantite * item.PrixUnitaire);
-            }
-            <span>@(item.Quantite * item.PrixUnitaire) €</span>
-        </td>
-        <td>
-            @Html.DisplayFor(model => item.IdCommandeNavigation.Id)
-        </td>
-        <td>
-            <button class="btn btn-primary" onclick="retirerDuPanier(@item.IdProduitNavigation.Id);">Retirer du panier</button>
-        </td>
-    </tr>
+    if (item.Quantite != 0)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.IdProduitNavigation.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Quantite)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PrixUnitaire)
+            </td>
+            <td>
+                @{
+                    total += (item.Quantite * item.PrixUnitaire);
+                }
+                <span>@(item.Quantite * item.PrixUnitaire) €</span>
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.IdCommandeNavigation.Id)
+            </td>
+            <td>
+                <button class="btn btn-primary" onclick="retirerDuPanier(@item.IdProduitNavigation.Id);">Retirer du panier</button>
+            </td>
+        </tr>
+    }
 }
+<tr>
+    <td>
+        <b>Montant total :</b>
+    </td>
+    <td>
+        @total € 
+    </td>
+</tr>
