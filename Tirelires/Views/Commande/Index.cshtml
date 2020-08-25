@@ -29,38 +29,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdProduitNavigation.Nom)
-                </td>
-                <td id="quantity">
-                    @Html.DisplayFor(modelItem => item.Quantite)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrixUnitaire)
-                </td>
-                <td>
-                    @{ 
-                        total += (item.Quantite * item.PrixUnitaire);
-                    }
-                    <span>@(item.Quantite*item.PrixUnitaire)</span>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdCommandeNavigation.Id)
-                </td>
-                <td>
-                    <button class="btn btn-primary" onclick="retirerDuPanier(@item.IdProduitNavigation.Id);">Retirer du panier</button>
-                </td>
-            </tr>
-        }
+        <partial name="/Views/Shared/_DetailCommande.cshtml" model=@Model />
         <tr>
             <td>
                 <b>Montant total :</b>
             </td>
             <td>
-                @total
+                @total €
             </td>
         </tr>
     </tbody>
@@ -72,19 +47,17 @@
 
 <script type="text/javascript">
     function retirerDuPanier(id) {
-        var qte = $("#quantity").val();
         $.ajax(
             {
                 type: "GET",
                 url: "@Url.Action("RemoveFromShoppingCard","Produit")",
                 data: {
-                    id: id,
-                    qte: qte
+                    id: id
                 },
                 success: function (result) {
-                    alert(result)
+                    alert("Panier mis à jour.")
                 },
-                error: function () {alert("Erreur Ajax")}
+                error: function () {alert("Ajax a rencontré une erreur.")}
             }
         );
     }

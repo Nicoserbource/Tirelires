@@ -135,16 +135,16 @@ namespace Tirelires.Controllers
         }
 
         [Authorize]
-        public ActionResult Order(int id)
+        public void Order(int id, int qte)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     Claim claim = User.Claims.ToList().FirstOrDefault();
                     string userId = claim.Value;
 
-                    if(userId != null)
+                    if (userId != null)
                     {
                         if (HttpContext.Session.GetString("panier") == null)
                         {
@@ -157,55 +157,49 @@ namespace Tirelires.Controllers
                         }
                         Commande panierActuel = JsonConvert.DeserializeObject<Commande>(HttpContext.Session.GetString("panier"));
 
-                        DetailCommande detail = new DetailCommande();
-                        detail.IdCommande = panierActuel.Id;
-                        detail.IdProduit = id;
-                        detail.Quantite = 1;
-                        detail.PrixUnitaire = _repository.Get(id).Prix;
+                        DetailCommande detail = panierActuel.DetailCommande.Where(d => d.IdProduit == id).FirstOrDefault();
 
-                        panierActuel.DetailCommande.Add(detail);
-
+                        if (detail == null)
+                        {
+                            detail = new DetailCommande()
+                            {
+                                IdCommande = panierActuel.Id,
+                                IdProduit = id,
+                                Quantite = qte,
+                                PrixUnitaire = _repository.Get(id).Prix
+                            };
+                            panierActuel.DetailCommande.Add(detail);
+                        }
+                        else
+                        {
+                            detail.Quantite += qte;
+                        }
                         string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
                         HttpContext.Session.SetString("panier", strPanierActuel);
                     }
                 }
-                else
-                {
-                    return RedirectToAction("Login", "Compte", new { area = "" });
-                }
             }
-            return RedirectToAction("Index", "Commande", new { area = "" });
         }
 
-        public IActionResult RemoveFromShoppingCard(int id)
+        [Authorize]
+        public ContentResult RemoveFromShoppingCard(int id)
         {
-            if (ModelState.IsValid)
+            Claim claim = User.Claims.ToList().FirstOrDefault();
+            string userId = claim.Value;
+
+            if (HttpContext.Session.GetString("panier") != null)
             {
-                if (User.Identity.IsAuthenticated)
-                {
-                    Claim claim = User.Claims.ToList().FirstOrDefault();
-                    string userId = claim.Value;
+                DetailCommande detail;
+                Commande panierActuel = JsonConvert.DeserializeObject<Commande>(HttpContext.Session.GetString("panier"));
 
-                    if (userId != null)
-                    {
-                        if (HttpContext.Session.GetString("panier") != null)
-                        {
-                            Commande panierActuel = JsonConvert.DeserializeObject<Commande>(HttpContext.Session.GetString("panier"));
+                detail = panierActuel.DetailCommande.Where(d => d.IdProduit == id).First();
+                detail.Quantite = (detail.Quantite > 0) ? detail.Quantite - 1 : 0;
 
-                            DetailCommande detail = panierActuel.DetailCommande.Where(d => d.IdProduit == id).First();
-                            detail.Quantite = (detail.Quantite > 0) ? detail.Quantite - 1 : 0;
-
-                                string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
-                            HttpContext.Session.SetString("panier", strPanierActuel);
-                        }
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Compte", new { area = "" });
-                }
+                string strPanierActuel = JsonConvert.SerializeObject(panierActuel);
+                HttpContext.Session.SetString("panier", strPanierActuel);
+                return Content(detail.Quantite.ToString());
             }
-            return RedirectToAction("Index", "Commande", new { area = "" });
+            else return Content("");
         }
 
         public IActionResult GetImage(int id)
@@ -228,7 +222,7 @@ namespace Tirelires.Controllers
                     }
                     var provider = new FileExtensionContentTypeProvider();
                     string contentType;
-                    if(!provider.TryGetContentType(fullPath, out contentType))
+                    if (!provider.TryGetContentType(fullPath, out contentType))
                     {
                         contentType = "application/octet-stream";
                     }

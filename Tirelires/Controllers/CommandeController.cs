@@ -37,10 +37,17 @@ namespace Tirelires.Controllers
                         }
                         return View(panierActuel.DetailCommande);
                     }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                return RedirectToAction("Login", "Compte", new { area = "" });
+                else
+                {
+                    return RedirectToAction("Login", "Compte");
+                }
             }
-            return RedirectToAction("Index", "Home", new { area = "" });
+            return View("Index", "Home");
         }
 
         // GET: TestController/Details/5
@@ -111,5 +118,10 @@ namespace Tirelires.Controllers
                 return View();
             }
         }
+
+        public IActionResult OnGetPartial() => new PartialViewResult {
+            ViewName = "_DetailCommande",
+            ViewData = ViewData
+        };
     }
 }

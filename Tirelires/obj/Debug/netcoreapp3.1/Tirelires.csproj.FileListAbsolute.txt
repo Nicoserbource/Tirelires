@@ -192,3 +192,4 @@ C:\Users\Nicolas\source\repos\Tirelires\Tirelires\obj\Debug\netcoreapp3.1\Tireli
 C:\Users\Nicolas\source\repos\Tirelires\Tirelires\obj\Debug\netcoreapp3.1\Razor\Views\Compte\Register.cshtml.g.cs
 C:\Users\Nicolas\source\repos\Tirelires\Tirelires\obj\Debug\netcoreapp3.1\Razor\Views\Compte\Login.cshtml.g.cs
 C:\Users\Nicolas\source\repos\Tirelires\Tirelires\obj\Debug\netcoreapp3.1\Razor\Views\Commande\Index.cshtml.g.cs
+C:\Users\Nicolas\source\repos\Tirelires\Tirelires\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_DetailCommande.cshtml.g.cs
